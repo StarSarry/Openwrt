@@ -37,7 +37,12 @@ echo "$(date +"%s")" >version.date
 sed -i '/$(curdir)\/compile:/c\$(curdir)/compile: package/opkg/host/compile' package/Makefile
 sed -i "s/DEFAULT_PACKAGES:=/DEFAULT_PACKAGES:=luci-app-advancedplus luci-app-firewall luci-app-package-manager luci-app-upnp luci-app-syscontrol luci-proto-wireguard \
 luci-app-wizard luci-base luci-compat luci-lib-ipkg luci-lib-fs luci-app-log-viewer \
+kmod-gpio-button-hotplug kmod-leds-gpio  kmod-mt7622-firmware kmod-mt7915-firmware \
 coremark wget-ssl curl autocore htop nano zram-swap kmod-lib-zstd kmod-tcp-bbr bash openssh-sftp-server block-mount resolveip ds-lite swconfig luci-app-fan luci-app-filemanager /" include/target.mk
+
+# base-files  ca-bundle   dnsmasq-full dropbear  firewall4 fitblk fstools
+#libc libgcc libustream-mbedtls logd mtd  netifd odhcp6c odhcpd-ipv6only
+# opkg ppp ppp-mod-pppoe   uboot-envtools uci uclient-fetch urandom-seed urngd wpad-basic-mbedtls
 
 sed -i "s/procd-ujail//" include/target.mk
 
