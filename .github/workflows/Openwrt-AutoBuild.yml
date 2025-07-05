@@ -8,7 +8,7 @@
 
 name: Build OpenWrt
 
-on: 
+on:
   repository_dispatch:
 
 env:
@@ -325,7 +325,7 @@ jobs:
         REMOTE_HOST: ${{ secrets.SERVER_HOST }}
         REMOTE_PORT: ${{ secrets.SERVER_PORT }}
         REMOTE_USER: root
-        TARGET: "/www/wwwroot/dl.openwrt.ai/releases/tmp/"
+        TARGET: "/www/wwwroot/tmp/"
 
     - name: Create release
       id: create_release
