@@ -15,9 +15,11 @@ on:
 
 jobs:
   build:
+    runs-on: ubuntu-latest
+
     steps:
       - name: Create file
-        run: |
+        run:
           echo "kaishi"
           ls
           echo "aaa" >> a.txt 
