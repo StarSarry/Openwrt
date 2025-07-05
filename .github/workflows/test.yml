@@ -20,7 +20,10 @@ jobs:
     steps:
       - name: Create file
         run: |
+          echo "kaishi"
+          ls
           echo "aaa" >> a.txt 
+          echo "jieshu"
 
       - name: Test SSH Connection
         uses: easingthemes/ssh-deploy@main
