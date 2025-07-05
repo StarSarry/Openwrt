@@ -9,18 +9,9 @@
 name: Call My Server
 
 on: 
-  # push: 
-  #   branches:
-  #     - master
-  #schedule:
-  #  - cron: 30 18 * * *
-  workflow_dispatch:
-    inputs:
-      param:
-        description: 'parameter'
-        required: false
-        default: ''
-
+   push:
+     branches:
+       - master
 
 jobs:
   build:
@@ -28,7 +19,6 @@ jobs:
 
     steps:
       - name: Create file
-        id: create file
         run: |
           echo "aaa" >> a.txt 
 
