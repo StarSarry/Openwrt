@@ -63,9 +63,6 @@ jobs:
         echo "UPLOAD_FIRMWARE_TO_WETRANSFER=${UPLOAD_FIRMWARE_TO_WETRANSFER}" >> $GITHUB_ENV
         sed -i "1a REPO_TOKEN=${{ secrets.TOKEN_KIDDIN9 }}" ${GITHUB_WORKSPACE}/devices/common/diy.sh
         sed -i "1a TARGET=${{matrix.target}}" ${GITHUB_WORKSPACE}/devices/common/diy.sh
-        echo "-----------#-----------------"
-        cat ${GITHUB_WORKSPACE}/devices/common/diy.sh
-        echo "-----------#-----------------"
         if [ ${{matrix.target}} == "x86_64" ]; then
             echo "ARCH=linux/amd64" >> $GITHUB_ENV
             echo "MTARGET=x86_64" >> $GITHUB_ENV
