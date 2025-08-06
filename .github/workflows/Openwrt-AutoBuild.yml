@@ -322,7 +322,7 @@ jobs:
         REMOTE_HOST: ${{ secrets.SERVER_HOST }}
         REMOTE_PORT: ${{ secrets.SERVER_PORT }}
         REMOTE_USER: jun
-        TARGET: "/www/wwwroot/tmp/"
+        TARGET: "/www/wwwroot/dl.openwrt.ai/releases/tmp/"
 
     - name: Create release
       id: create_release
