@@ -1,0 +1,23 @@
+--- a/target/linux/qualcommax/patches-6.12/0600-4-qca-nss-ecm-support-net-bonding-over-LAG-interface.patch
++++ b/target/linux/qualcommax/patches-6.12/0600-4-qca-nss-ecm-support-net-bonding-over-LAG-interface.patch
+@@ -621,8 +621,8 @@
+ +++ b/include/net/bond_3ad.h
+ @@ -307,8 +307,15 @@ int bond_3ad_lacpdu_recv(const struct sk
+  			 struct slave *slave);
+- int bond_3ad_set_carrier(struct bonding *bond);
+  void bond_3ad_update_lacp_rate(struct bonding *bond);
++ void bond_3ad_update_lacp_active(struct bonding *bond);
+ +/* QCA NSS ECM bonding support */
+ +struct net_device *bond_3ad_get_tx_dev(struct sk_buff *skb, uint8_t *src_mac,
+ +				       uint8_t *dst_mac, void *src,
+
+--- a/package/kernel/linux/modules/netfilter.mk
++++ b/package/kernel/linux/modules/netfilter.mk
+@@ -247,6 +247,7 @@ $(eval $(call KernelPackage,ipt-conntrack))
+ 
+ define KernelPackage/ipt-conntrack-extra
+   TITLE:=Extra connection tracking modules
++  DEPENDS:=+kmod-nf-conncount
+   KCONFIG:=$(KCONFIG_IPT_CONNTRACK_EXTRA)
+   FILES:=$(foreach mod,$(IPT_CONNTRACK_EXTRA-m),$(LINUX_DIR)/net/$(mod).ko)
+   AUTOLOAD:=$(call AutoProbe,$(notdir $(IPT_CONNTRACK_EXTRA-m)))
