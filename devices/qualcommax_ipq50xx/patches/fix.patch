@@ -1,13 +1,40 @@
+--- a/target/linux/qualcommax/patches-6.12/0600-4-qca-nss-ecm-support-net-bonding-over-LAG-interface.patch
++++ b/target/linux/qualcommax/patches-6.12/0600-4-qca-nss-ecm-support-net-bonding-over-LAG-interface.patch
+@@ -621,8 +621,8 @@
+ +++ b/include/net/bond_3ad.h
+ @@ -307,8 +307,15 @@ int bond_3ad_lacpdu_recv(const struct sk
+  			 struct slave *slave);
+- int bond_3ad_set_carrier(struct bonding *bond);
+  void bond_3ad_update_lacp_rate(struct bonding *bond);
++ void bond_3ad_update_lacp_active(struct bonding *bond);
+ +/* QCA NSS ECM bonding support */
+ +struct net_device *bond_3ad_get_tx_dev(struct sk_buff *skb, uint8_t *src_mac,
+ +				       uint8_t *dst_mac, void *src,
+
 --- a/package/kernel/linux/modules/netfilter.mk
 +++ b/package/kernel/linux/modules/netfilter.mk
-@@ -330,7 +330,7 @@ define KernelPackage/ipt-ipopt
-   KCONFIG:=$(KCONFIG_IPT_IPOPT)
-   FILES:=$(foreach mod,$(IPT_IPOPT-m),$(LINUX_DIR)/net/$(mod).ko)
-   AUTOLOAD:=$(call AutoProbe,$(notdir $(IPT_IPOPT-m)))
--  $(call AddDepends/ipt)
-+  $(call AddDepends/ipt,+kmod-nf-conntrack)
- endef
+@@ -247,6 +247,7 @@ $(eval $(call KernelPackage,ipt-conntrack))
  
- define KernelPackage/ipt-ipopt/description
-
- 
+ define KernelPackage/ipt-conntrack-extra
+   TITLE:=Extra connection tracking modules
++  DEPENDS:=+kmod-nf-conncount
+   KCONFIG:=$(KCONFIG_IPT_CONNTRACK_EXTRA)
+   FILES:=$(foreach mod,$(IPT_CONNTRACK_EXTRA-m),$(LINUX_DIR)/net/$(mod).ko)
+   AUTOLOAD:=$(call AutoProbe,$(notdir $(IPT_CONNTRACK_EXTRA-m)))
+diff --git a/target/linux/qualcommax/patches-6.12/999-fix-netdev-cacheline-size.patch b/target/linux/qualcommax/patches-6.12/999-fix-netdev-cacheline-size.patch
+new file mode 100644
+index 00000000000000..1481f8844bf45e
+--- /dev/null
++++ b/target/linux/qualcommax/patches-6.12/999-fix-netdev-cacheline-size.patch
+@@ -0,0 +1,11 @@
++--- a/net/core/dev.c
+++++ b/net/core/dev.c
++@@ -12060,7 +12060,7 @@ static void __init net_dev_struct_check(void)
++ #ifdef CONFIG_NET_XGRESS
++ 	CACHELINE_ASSERT_GROUP_MEMBER(struct net_device, net_device_read_tx, tcx_egress);
++ #endif
++-	CACHELINE_ASSERT_GROUP_SIZE(struct net_device, net_device_read_tx, 160);
+++	CACHELINE_ASSERT_GROUP_SIZE(struct net_device, net_device_read_tx, 192);
++ 
++ 	/* TXRX read-mostly hotpath */
++ 	CACHELINE_ASSERT_GROUP_MEMBER(struct net_device, net_device_read_txrx, lstats);
