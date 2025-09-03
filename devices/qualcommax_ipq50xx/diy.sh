@@ -17,6 +17,6 @@ sed -i "s/wpad-openssl/wpad-mbedtls/" target/linux/qualcommax/Makefile
 
 sed -i "/ECM_INTERFACE_MAP_T_ENABLE/d"  package/qca/qca-nss-ecm/Makefile
 
-rm -rf feeds/kiddin9/xtables-wgobfs package/devel/perf package/feeds/packages/{ovpn-dco,xr_usb_serial_common,openvswitch,xtables-addons}
+rm -rf feeds/kiddin9/{xtables-wgobfs,*_QMI_WWAN} package/devel/perf package/feeds/packages/{ovpn-dco,xr_usb_serial_common,openvswitch,xtables-addons}
 
 

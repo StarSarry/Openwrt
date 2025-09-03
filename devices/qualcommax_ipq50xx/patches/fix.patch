@@ -13,14 +13,15 @@
 
 --- a/package/kernel/linux/modules/netfilter.mk
 +++ b/package/kernel/linux/modules/netfilter.mk
-@@ -247,6 +247,7 @@ $(eval $(call KernelPackage,ipt-conntrack))
+@@ -330,7 +330,7 @@ define KernelPackage/ipt-ipopt
+   KCONFIG:=$(KCONFIG_IPT_IPOPT)
+   FILES:=$(foreach mod,$(IPT_IPOPT-m),$(LINUX_DIR)/net/$(mod).ko)
+   AUTOLOAD:=$(call AutoProbe,$(notdir $(IPT_IPOPT-m)))
+-  $(call AddDepends/ipt)
++  $(call AddDepends/ipt,+kmod-nf-conntrack)
+ endef
  
- define KernelPackage/ipt-conntrack-extra
-   TITLE:=Extra connection tracking modules
-+  DEPENDS:=+kmod-nf-conncount
-   KCONFIG:=$(KCONFIG_IPT_CONNTRACK_EXTRA)
-   FILES:=$(foreach mod,$(IPT_CONNTRACK_EXTRA-m),$(LINUX_DIR)/net/$(mod).ko)
-   AUTOLOAD:=$(call AutoProbe,$(notdir $(IPT_CONNTRACK_EXTRA-m)))
+ define KernelPackage/ipt-ipopt/description
 diff --git a/target/linux/qualcommax/patches-6.12/999-fix-netdev-cacheline-size.patch b/target/linux/qualcommax/patches-6.12/999-fix-netdev-cacheline-size.patch
 new file mode 100644
 index 00000000000000..1481f8844bf45e
