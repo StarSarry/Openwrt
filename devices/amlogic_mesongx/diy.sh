@@ -6,7 +6,7 @@ rm -rf package/kernel
 git_clone_path master https://github.com/coolsnowwolf/lede target/linux/generic/backport-6.1 target/linux/generic/hack-6.1 target/linux/generic/pending-6.1 target/linux/amlogic package/boot/uboot-amlogic package/kernel
 
 rm -rf package/kernel/bpf-headers
-git_clone_path openwrt-24.10 https://github.com/openwrt/openwrt package/kernel/bpf-headers
+git_clone_path openwrt-25.12 https://github.com/openwrt/openwrt package/kernel/bpf-headers
 
 sed -i "s/autocore-arm/autocore/" target/linux/amlogic/Makefile
 
