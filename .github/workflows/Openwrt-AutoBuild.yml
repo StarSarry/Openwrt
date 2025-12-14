@@ -100,9 +100,9 @@ jobs:
       continue-on-error: true
       if: contains(github.event.action, 'pkg')
       run: |
-        status=$(curl -H "Authorization: token ${{ secrets.TOKEN_KIDDIN9 }}" -s "https://api.github.com/repos/kiddin9/kwrt-packages/actions/runs" | jq -r '.workflow_runs[0].status')
+        status=$(curl -H "Authorization: token ${{ secrets.TOKEN_KIDDIN9 }}" -s "https://api.github.com/repos/StarSarry/kwrt-packages/actions/runs" | jq -r '.workflow_runs[0].status')
         if [[ "$status" == "completed" ]]; then
-          curl -X POST https://api.github.com/repos/kiddin9/kwrt-packages/dispatches \
+          curl -X POST https://api.github.com/repos/StarSarry/kwrt-packages/dispatches \
             -H "Accept: application/vnd.github.everest-preview+json" \
             -H "Authorization: token ${{ secrets.TOKEN_KIDDIN9 }}" \
           --data '{"event_type": "update"}'
@@ -142,6 +142,29 @@ jobs:
         echo "date2=$(date +'%m/%d %Y')" >> $GITHUB_ENV
         VERSION="$(echo "${{github.event.action}}" | grep -Eo " [0-9.]+" | sed -e 's/ //')" || true
         [ "$VERSION" ] && echo "VERSION=$VERSION" >> $GITHUB_ENV || echo "VERSION=$(date +'%m.%d')" >> $GITHUB_ENV
+        if [ -n "$VERSION" ]; then
+          if [[ "$VERSION" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+            echo "REPO_BRANCH=v$VERSION" >> $GITHUB_ENV
+          elif [[ "$VERSION" =~ ^[0-9]+\.[0-9]+$ ]]; then
+            echo "REPO_BRANCH=openwrt-$VERSION" >> $GITHUB_ENV
+          fi
+        fi
+        if [[ -z "${{ env.REPO_BRANCH }}" ]] && [ -z "$VERSION" ]; then
+          echo "REPO_BRANCH=openwrt-24.10" >> $GITHUB_ENV
+        fi
+        # Set VERSION_DIR for server upload path
+        if [ -n "$VERSION" ]; then
+          echo "VERSION_DIR=$VERSION" >> $GITHUB_ENV
+        else
+          RB="${REPO_BRANCH:-${{ env.REPO_BRANCH }}}"
+          if [[ "$RB" =~ ^openwrt-([0-9]+\.[0-9]+)$ ]]; then
+            echo "VERSION_DIR=${BASH_REMATCH[1]}" >> $GITHUB_ENV
+          elif [[ "$RB" =~ ^v([0-9]+\.[0-9]+\.[0-9]+)$ ]]; then
+            echo "VERSION_DIR=${BASH_REMATCH[1]}" >> $GITHUB_ENV
+          else
+            echo "VERSION_DIR=24.10" >> $GITHUB_ENV
+          fi
+        fi
 
     - name: Clone source code
       run: |
@@ -319,8 +342,8 @@ jobs:
         SOURCE: openwrt/bin/targets
         REMOTE_HOST: ${{ secrets.SERVER_HOST }}
         REMOTE_PORT: ${{ secrets.SERVER_PORT }}
-        REMOTE_USER: root
-        TARGET: "/www/wwwroot/dl.openwrt.ai/releases/tmp/"
+        REMOTE_USER: jun
+        TARGET: "/www/wwwroot/dl.openwrt.ai/releases/tmp/${{env.VERSION_DIR}}/"
 
     - name: Create release
       id: create_release
