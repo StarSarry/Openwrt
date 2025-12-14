@@ -9,9 +9,9 @@ rm -rf package/boot target/linux/rockchip target/linux/generic
 
 git_clone_path master https://github.com/coolsnowwolf/lede target/linux/rockchip target/linux/generic package/boot
 
-wget -N https://github.com/istoreos/istoreos/raw/refs/heads/istoreos-23.05/target/linux/rockchip/patches-5.15/305-r2s-pwm-fan.patch -P target/linux/rockchip/patches-6.6/
+wget -N https://github.com/istoreos/istoreos/raw/refs/heads/istoreos-23.05/target/linux/rockchip/patches-5.15/305-r2s-pwm-fan.patch -P target/linux/rockchip/patches-6.12/
 
-wget -N https://github.com/coolsnowwolf/lede/raw/master/include/kernel-6.6 -P include/
+wget -N https://github.com/coolsnowwolf/lede/raw/master/include/kernel-6.12 -P include/
 
 wget -N https://github.com/coolsnowwolf/lede/raw/refs/heads/master/include/trusted-firmware-a.mk -P include/
 
@@ -31,6 +31,6 @@ rm -rf target/linux/rockchip/armv8/base-files/etc/uci-defaults/13_opkg_update pa
 sed -i -e 's,kmod-r8168,kmod-r8169,g' target/linux/rockchip/image/armv8.mk
 sed -i -e 's,wpad-openssl,wpad-basic-mbedtls,g' target/linux/rockchip/image/armv8.mk
 
-sed -i -e 's/6.12/6.6/' -e 's/DEFAULT_PACKAGES +=/DEFAULT_PACKAGES += fdisk lsblk kmod-drm-rockchip luci-app-diskman/' -e 's/autocore-arm/autocore/' target/linux/rockchip/Makefile
+sed -i -e 's/DEFAULT_PACKAGES +=/DEFAULT_PACKAGES += fdisk lsblk kmod-drm-rockchip luci-app-diskman/' -e 's/autocore-arm/autocore/' target/linux/rockchip/Makefile
 
 sed -i 's/Ariaboard/光影猫/' target/linux/rockchip/image/armv8.mk

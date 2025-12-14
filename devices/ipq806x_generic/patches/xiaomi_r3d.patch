@@ -37,7 +37,7 @@ MAC addresses as verified by stock firmware:
  target/linux/ipq806x/image/generic.mk         |  17 +
  8 files changed, 963 insertions(+), 1 deletion(-)
  create mode 100644 target/linux/ipq806x/base-files/lib/upgrade/xiaomi.sh
- create mode 100644 target/linux/ipq806x/files-6.6/arch/arm/boot/dts/qcom-ipq8064-r3d.dts
+ create mode 100644 target/linux/ipq806x/files-6.12/arch/arm/boot/dts/qcom-ipq8064-r3d.dts
 
 diff --git a/package/boot/uboot-envtools/files/ipq806x b/package/boot/uboot-envtools/files/ipq806x
 index 01a86c7b19fca..c0a781c1e21b4 100644
@@ -565,11 +565,11 @@ index 0000000000000..9246e8f867e3f
 +
 +	nand_do_upgrade "$XIAOMI_FW_FILE"
 +}
-diff --git a/target/linux/ipq806x/files-6.6/arch/arm/boot/dts/qcom/qcom-ipq8064-r3d.dts b/target/linux/ipq806x/files-6.6/arch/arm/boot/dts/qcom/qcom-ipq8064-r3d.dts
+diff --git a/target/linux/ipq806x/files-6.12/arch/arm/boot/dts/qcom/qcom-ipq8064-r3d.dts b/target/linux/ipq806x/files-6.12/arch/arm/boot/dts/qcom/qcom-ipq8064-r3d.dts
 new file mode 100644
 index 0000000000000..fd952d230c5da
 --- /dev/null
-+++ b/target/linux/ipq806x/files-6.6/arch/arm/boot/dts/qcom/qcom-ipq8064-r3d.dts
++++ b/target/linux/ipq806x/files-6.12/arch/arm/boot/dts/qcom/qcom-ipq8064-r3d.dts
 @@ -0,0 +1,479 @@
 +// SPDX-License-Identifier: GPL-2.0-or-later OR MIT
 +
