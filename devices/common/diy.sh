@@ -2,7 +2,7 @@
 #=================================================
 shopt -s extglob
 
-sed -i '$a src-git kiddin9 https://github.com/kiddin9/kwrt-packages.git;main' feeds.conf.default
+sed -i '$a src-git kiddin9 https://github.com/StarSarry/kwrt-packages.git;main' feeds.conf.default
 sed -i "/telephony/d" feeds.conf.default
 
 sed -i "s?targets/%S/packages?targets/%S/\$(LINUX_VERSION)?" include/feeds.mk
@@ -15,7 +15,7 @@ sed -i "s?git.openwrt.org/\(project\|feed\)?github.com/openwrt?g" feeds.conf.def
 ./scripts/feeds install -a -p kiddin9 -f
 ./scripts/feeds install -a
 
-sed --follow-symlinks -i "s#%C\"#%C by Kiddin'\"#" package/base-files/files/etc/os-release
+sed --follow-symlinks -i "s#%C\"#%C by Jun'\"#" package/base-files/files/etc/os-release
 sed -i -e '$a /etc/bench.log' \
         -e '/\/etc\/profile/d' \
         -e '/\/etc\/shinit/d' \
@@ -23,7 +23,7 @@ sed -i -e '$a /etc/bench.log' \
 sed -i -e '/^\/etc\/profile/d' \
         -e '/^\/etc\/shinit/d' \
         package/base-files/Makefile
-sed -i "s/192.168.1/10.0.0/" package/base-files/files/bin/config_generate
+sed -i "s/192.168/10.10/" package/base-files/files/bin/config_generate
 
 wget -N https://github.com/immortalwrt/immortalwrt/raw/refs/heads/openwrt-25.12/package/kernel/linux/modules/video.mk -P package/kernel/linux/modules/
 wget -N https://github.com/immortalwrt/immortalwrt/raw/refs/heads/openwrt-25.12/package/network/utils/nftables/patches/002-nftables-add-fullcone-expression-support.patch -P package/network/utils/nftables/patches/
@@ -47,12 +47,12 @@ sed -i "s/procd-ujail//" include/target.mk
 
 sed -i "s/^.*vermagic$/\techo '1' > \$(LINUX_DIR)\/.vermagic/" include/kernel-defaults.mk
 
-status=$(curl -H "Authorization: token $REPO_TOKEN" -s "https://api.github.com/repos/kiddin9/kwrt-packages/actions/runs" | jq -r '.workflow_runs[0].status')
+status=$(curl -H "Authorization: token $REPO_TOKEN" -s "https://api.github.com/repos/StarSarry/kwrt-packages/actions/runs" | jq -r '.workflow_runs[0].status')
 echo "$status"
 while [[ "$status" == "in_progress" || "$status" == "queued" ]];do
 	echo "wait 5s"
 	sleep 5
-	status=$(curl -H "Authorization: token $REPO_TOKEN" -s "https://api.github.com/repos/kiddin9/kwrt-packages/actions/runs" | jq -r '.workflow_runs[0].status')
+	status=$(curl -H "Authorization: token $REPO_TOKEN" -s "https://api.github.com/repos/StarSarry/kwrt-packages/actions/runs" | jq -r '.workflow_runs[0].status')
 done
 
 mv -f feeds/kiddin9/r81* tmp/
@@ -83,8 +83,6 @@ sed -i \
 	-e 's/+python\( \|$\)/+python3/' \
 	-e 's?../../lang?$(TOPDIR)/feeds/packages/lang?' \
 	package/feeds/kiddin9/*/Makefile
-
-sed -i "s/OpenWrt/Kwrt/g" package/base-files/files/bin/config_generate package/base-files/image-config.in package/network/config/wifi-scripts/files/lib/wifi/mac80211.uc config/Config-images.in Config.in include/u-boot.mk include/version.mk || true
 
 sed -i -e "s/set \${s}.country='\${country || ''}'/set \${s}.country='\${country || \"CN\"}'/g" -e "s/set \${s}.disabled=.*/set \${s}.disabled='0'/" package/network/config/wifi-scripts/files/lib/wifi/mac80211.uc
 
