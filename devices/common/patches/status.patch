@@ -66,7 +66,7 @@
 +			L.resolveDefault(callCPUBench(), {}),
 +			L.resolveDefault(callCPUInfo(), {}),
 +			L.resolveDefault(callTempInfo(), {}),
- 			L.resolveDefault(callLuciVersion(), { revision: _('unknown version'), branch: 'LuCI' })
+ 			L.resolveDefault(callLuciVersion(), { revision: _('unknown version'), branch: 'LuCI' }),
  			L.resolveDefault(callGetUnixtime(), 0),
  			uci.load('system')
 @@ -32,7 +56,10 @@ return baseclass.extend({
