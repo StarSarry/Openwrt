@@ -185,8 +185,8 @@
  	zyxel,nwa50ax|\
  	zyxel,nwa55axe)
 
---- a/package/boot/uboot-envtools/files/ramips
-+++ b/package/boot/uboot-envtools/files/ramips
+--- a/package/boot/uboot-tools/uboot-envtools/files/ramips
++++ b/package/boot/uboot-tools/uboot-envtools/files/ramips
 @@ -73,9 +73,7 @@ zyxel,nr7101)
  		ubootenv_add_uci_config "/dev/mtd$idx" "0x0" "0x1000" "0x80000"
  	;;
