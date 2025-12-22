@@ -41,7 +41,6 @@ Signed-off-by: Willem Lee <1980490718@qq.com>
  .../arm/boot/dts/qcom/qcom-ipq4018-ap4220.dts | 369 ++++++++++++++++++
  target/linux/ipq40xx/image/generic.mk         |  12 +
  7 files changed, 400 insertions(+), 1 deletion(-)
- create mode 100644 target/linux/ipq40xx/files-6.6/arch/arm/boot/dts/qcom/qcom-ipq4018-ap4220.dts
 
 diff --git a/package/boot/uboot-envtools/files/ipq40xx b/package/boot/uboot-envtools/files/ipq40xx
 index 717158b0425ea5..dfa22e4ed0e68e 100644
