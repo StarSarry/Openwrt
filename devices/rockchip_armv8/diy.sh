@@ -11,9 +11,7 @@ git_clone_path master https://github.com/coolsnowwolf/lede target/linux/rockchip
 
 wget -N https://github.com/istoreos/istoreos/raw/refs/heads/istoreos-23.05/target/linux/rockchip/patches-5.15/305-r2s-pwm-fan.patch -P target/linux/rockchip/patches-6.12/
 
-wget -N https://github.com/coolsnowwolf/lede/raw/master/include/kernel-6.12 -P include/
-
-wget -N https://github.com/coolsnowwolf/lede/raw/refs/heads/master/include/trusted-firmware-a.mk -P include/
+wget -N https://github.com/coolsnowwolf/lede/raw/master/include/kernel-6.12 -P target/linux/generic/
 
 sed -i "/KernelPackage,ptp/d" package/kernel/linux/modules/other.mk
 
@@ -23,8 +21,6 @@ sed -i "/KernelPackage,ptp/d" package/kernel/linux/modules/other.mk
 #	   -e "s/configs\/rocktech-\(.*-.*_defconfig\)/configs\/\1/" \
 #	   -e "s/configs\/advantech-\(.*-.*_defconfig\)/configs\/\1/" \
 #	   package/boot/uboot-rockchip/patches/*
-
-mv -f tmp/r8125 feeds/kiddin9/
 
 rm -rf target/linux/rockchip/armv8/base-files/etc/uci-defaults/13_opkg_update package/feeds/kiddin9/pcat-manager
 
