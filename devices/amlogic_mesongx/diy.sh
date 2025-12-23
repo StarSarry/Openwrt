@@ -11,6 +11,8 @@ wget -N https://github.com/coolsnowwolf/lede/raw/refs/heads/master/include/kerne
 
 rm -rf feeds/routing/batman-adv package/kernel/rtw88-usb target/linux/generic/hack-6.1/983-add-bcm-fullconenat-to-nft.patch
 
+sed -i -e "/ath9k_platform/d" -e "/rt2x00_platform/d" package/kernel/mac80211/ath.mk
+
 echo '
 CONFIG_BLK_DEV_INTEGRITY=n
 ' >> target/linux/amlogic/mesongx/config-6.1
