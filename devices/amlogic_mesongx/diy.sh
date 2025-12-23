@@ -10,7 +10,7 @@ git_clone_path openwrt-25.12 https://github.com/openwrt/openwrt package/kernel/b
 
 sed -i "s/autocore-arm/autocore/" target/linux/amlogic/Makefile
 
-wget -N https://github.com/coolsnowwolf/lede/raw/refs/heads/master/include/kernel-6.1 -P include/
+wget -N https://github.com/coolsnowwolf/lede/raw/refs/heads/master/include/kernel-6.1 -P target/linux/generic/
 
 rm -rf feeds/routing/batman-adv package/kernel/rtw88-usb target/linux/generic/hack-6.1/983-add-bcm-fullconenat-to-nft.patch
 
