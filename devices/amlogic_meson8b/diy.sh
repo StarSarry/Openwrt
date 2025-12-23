@@ -13,6 +13,10 @@ SHELL_FOLDER=$(dirname $(readlink -f "$0"))
 
 git_clone_path main https://github.com/lxiaya/openwrt-onecloud target/linux/amlogic
 
+mv -f target/linux/amlogic/patches-6.6 target/linux/amlogic/patches-6.12
+
+sed -i "s/KERNEL_PATCHVER:=6.6/KERNEL_PATCHVER:=6.12/" target/linux/amlogic/Makefile
+
 mv -f gen_aml_emmc_img.sh target/linux/amlogic/image/
 
 chmod +x target/linux/amlogic/image/gen_aml_emmc_img.sh
