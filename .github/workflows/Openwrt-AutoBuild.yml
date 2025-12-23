@@ -87,6 +87,8 @@ jobs:
             echo "MTARGET=arm_cortex-a15_neon-vfpv4" >> $GITHUB_ENV
         elif [[ ${{matrix.target}} == "bcm27xx_bcm2708" ]]; then
             echo "MTARGET=arm_arm1176jzf-s_vfp" >> $GITHUB_ENV
+        elif [[ ${{matrix.target}} == "siflower_sf21" ]]; then
+            echo "MTARGET=riscv64_generic" >> $GITHUB_ENV
         else
           echo "ARCH=linux/arm64" >> $GITHUB_ENV
           if [[ ${{matrix.target}} == "bcm27xx_bcm2711" ]]; then
@@ -179,6 +181,7 @@ jobs:
       run: |
         sudo mkdir -p -m 777 /mnt/openwrt/dl /mnt/openwrt/staging_dir /mnt/openwrt/build_dir
         ln -sf /mnt/openwrt/build_dir openwrt/build_dir
+        ln -sf /mnt/openwrt/staging_dir openwrt/staging_dir
 
     - name: Load custom configuration
       run: |
@@ -270,7 +273,7 @@ jobs:
         shopt -s extglob
         cd openwrt
         if [[ -f staging_dir/*${{ env.MTARGET }}*/bin ]]; then
-            rm -rf staging_dir/!(*${{ env.MTARGET }}*|host|hostpkg) build_dir/!(*${{ env.MTARGET }}*|host|hostpkg)
+            rm -rvf staging_dir/!(*${{ env.MTARGET }}*|host|hostpkg) build_dir/!(*${{ env.MTARGET }}*|host|hostpkg)
         fi
         df -hT
 
