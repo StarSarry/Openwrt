@@ -17,6 +17,8 @@ wget -N https://github.com/LiBwrt/openwrt-6.x/raw/refs/heads/25.12-nss/Config.in
 
 chmod +x scripts/tplink-mkimage-2022.py
 
+rm -rf feeds/kiddin9/shortcut-fe
+
 git clone https://github.com/qosmio/nss-packages.git package/nss-packages
 git clone https://github.com/qosmio/sqm-scripts-nss.git package/sqm-scripts-nss
 
