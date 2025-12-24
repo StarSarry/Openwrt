@@ -24,7 +24,7 @@ index 0000000000000..857f2a534e112
 +#include <dt-bindings/gpio/gpio.h>
 +#include <dt-bindings/input/input.h>
 +
-+#include "mt798b.dtsi"
++#include "mt7981b.dtsi"
 +
 +/ {
 +	model = "IMOU LC-HX3001 (uboot layout)";
