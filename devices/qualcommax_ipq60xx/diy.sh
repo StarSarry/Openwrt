@@ -4,18 +4,13 @@ shopt -s extglob
 
 SHELL_FOLDER=$(dirname $(readlink -f "$0"))
 
-rm -rf package/boot package/firmware/ipq-wifi target/linux/qualcommax target/linux/generic package/kernel package/firmware/ath11k-firmware
+rm -rf package/boot package/firmware/ipq-wifi target/linux/qualcommax target/linux/generic package/firmware/ath11k-firmware
 
-git_clone_path 25.12-nss https://github.com/LiBwrt/openwrt-6.x target/linux/qualcommax target/linux/generic package/kernel package/boot package/firmware/ipq-wifi package/firmware/ath11k-firmware
+git_clone_path 25.12-nss https://github.com/LiBwrt/openwrt-6.x target/linux/qualcommax target/linux/generic package/boot package/firmware/ipq-wifi package/firmware/ath11k-firmware
 
-wget -N https://github.com/openwrt/openwrt/raw/refs/heads/main/include/kernel-version.mk -P include/
-wget -N https://raw.githubusercontent.com/openwrt/openwrt/refs/heads/main/config/Config-kernel.in -P config/
 wget -N https://github.com/LiBwrt/openwrt-6.x/raw/refs/heads/25.12-nss/include/image-commands.mk -P include/
-wget -N https://github.com/LiBwrt/openwrt-6.x/raw/refs/heads/25.12-nss/scripts/tplink-mkimage-2022.py -P scripts/
 wget -N https://github.com/LiBwrt/openwrt-6.x/raw/refs/heads/25.12-nss/config/Config-ipq.in -P config/
 wget -N https://github.com/LiBwrt/openwrt-6.x/raw/refs/heads/25.12-nss/Config.in -P ./
-
-chmod +x scripts/tplink-mkimage-2022.py
 
 rm -rf feeds/kiddin9/shortcut-fe
 
