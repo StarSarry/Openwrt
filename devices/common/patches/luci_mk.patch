@@ -54,3 +54,11 @@
 -$(foreach lang,$(LUCI_LANGUAGES),$(if $(LUCI_LANG.$(lang)),$(eval $(call LuciTranslation,$(firstword $(LUCI_LC_ALIAS.$(lang)) $(lang)),$(lang)))))
 +# $(foreach lang,$(LUCI_LANGUAGES),$(if $(LUCI_LANG.$(lang)),$(eval $(call LuciTranslation,$(firstword $(LUCI_LC_ALIAS.$(lang)) $(lang)),$(lang)))))
  $(foreach pkg,$(LUCI_BUILD_PACKAGES),$(eval $(call BuildPackage,$(pkg))))
+
+--- a/feeds/luci/luci.mk
++++ b/feeds/luci/luci.mk
+@@ -382,7 +382,7 @@ define Build/Prepare
+ 	for d in luasrc ucode htdocs root src; do if [ -d ./$$d ]; then mkdir -p $(PKG_BUILD_DIR)/$$d; cp -fpR ./$$d/* $(PKG_BUILD_DIR)/$$d/; fi; done
+-	cp -fpR ../../NOTICE $(PKG_BUILD_DIR)
++	[ ! -f ../../NOTICE ] || cp -fpR ../../NOTICE $(PKG_BUILD_DIR)
+ endef

@@ -1,0 +1,11 @@
+--- a/feeds/kiddin9/webd/Makefile
++++ b/feeds/kiddin9/webd/Makefile
+@@ -95,7 +95,7 @@ endif
+ endif
+ 
+ ifeq ($(strip $(TARGET_ARCH)$(TARGET_BOARD)),)
+-  $(error Unsupported ARCH/BOARD combo: ARCH=$(ARCH) BOARD=$(BOARD) SUBTARGET=$(SUBTARGET))
++  $(warning Unsupported ARCH/BOARD combo: ARCH=$(ARCH) BOARD=$(BOARD) SUBTARGET=$(SUBTARGET))
+ endif
+ 
+ PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION)-$(TARGET_ARCH)-openwrt-linux-$(TARGET_BOARD).tar.gz
