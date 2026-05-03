@@ -54,3 +54,17 @@
 -$(foreach lang,$(LUCI_LANGUAGES),$(if $(LUCI_LANG.$(lang)),$(eval $(call LuciTranslation,$(firstword $(LUCI_LC_ALIAS.$(lang)) $(lang)),$(lang)))))
 +# $(foreach lang,$(LUCI_LANGUAGES),$(if $(LUCI_LANG.$(lang)),$(eval $(call LuciTranslation,$(firstword $(LUCI_LC_ALIAS.$(lang)) $(lang)),$(lang)))))
  $(foreach pkg,$(LUCI_BUILD_PACKAGES),$(eval $(call BuildPackage,$(pkg))))
+
+--- a/feeds/kiddin9/luci-base/Makefile
++++ b/feeds/kiddin9/luci-base/Makefile
+@@ -54,8 +54,8 @@ define Package/luci-base/postinst
+ endef
+ 
+ define Build/Prepare/luci-base
+-	$(CP) ../../NOTICE $(PKG_BUILD_DIR)
+-	$(CP) ../../LICENSE $(PKG_BUILD_DIR)
++	[ ! -f ../../NOTICE ] || $(CP) ../../NOTICE $(PKG_BUILD_DIR)
++	[ ! -f ../../LICENSE ] || $(CP) ../../LICENSE $(PKG_BUILD_DIR)
+ endef
+ 
+ include $(TOPDIR)/feeds/luci/luci.mk
