@@ -57,7 +57,7 @@
 
 --- a/feeds/luci/luci.mk
 +++ b/feeds/luci/luci.mk
-@@ -382,7 +382,7 @@ define Build/Prepare
+@@ -382,4 +382,4 @@ define Build/Prepare
  	for d in luasrc ucode htdocs root src; do if [ -d ./$$d ]; then mkdir -p $(PKG_BUILD_DIR)/$$d; cp -fpR ./$$d/* $(PKG_BUILD_DIR)/$$d/; fi; done
 -	cp -fpR ../../NOTICE $(PKG_BUILD_DIR)
 +	[ ! -f ../../NOTICE ] || cp -fpR ../../NOTICE $(PKG_BUILD_DIR)
