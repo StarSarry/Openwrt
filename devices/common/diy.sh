@@ -38,9 +38,8 @@ rm -rf package/libs/openssl package/network/services/ppp
 git_clone_path openwrt-25.12 https://github.com/immortalwrt/immortalwrt package/libs/openssl package/network/services/ppp
 
 echo "$(date +"%s")" >version.date
-sed -i '/$(curdir)\/compile:/c\$(curdir)/compile: package/opkg/host/compile' package/Makefile
 sed -i "s/DEFAULT_PACKAGES:=/DEFAULT_PACKAGES:=luci-app-advancedplus luci-app-firewall luci-app-package-manager luci-app-upnp luci-app-syscontrol luci-proto-wireguard \
-luci-app-wizard luci-base luci-compat luci-lib-ipkg luci-lib-fs \
+luci-app-wizard luci-base luci-compat luci-lib-fs \
 luci-nginx wget-ssl curl autocore zram-swap kmod-lib-zstd kmod-tcp-bbr bash openssh-sftp-server block-mount resolveip ds-lite swconfig luci-app-fan luci-app-filemanager luci-app-wifihistory /" include/target.mk
 
 sed -i "s/^.*vermagic$/\techo '1' > \$(LINUX_DIR)\/.vermagic/" include/kernel-defaults.mk

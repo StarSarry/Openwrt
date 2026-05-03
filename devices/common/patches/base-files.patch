@@ -27,32 +27,6 @@
  
  [ -z "$KSH_VERSION" -o \! -s /etc/mkshrc ] || . /etc/mkshrc
 
---- a/package/base-files/files/sbin/sysupgrade
-+++ b/package/base-files/files/sbin/sysupgrade
-@@ -296,11 +296,7 @@ create_backup_archive() {
- 				# Format: pkg-name<TAB>{rom,overlay,unknown}
- 				# rom is used for pkgs in /rom, even if updated later
- 				if [ -d "/usr/lib/opkg/info" ]; then
--					tar_print_member "$INSTALLED_PACKAGES" "$(find /usr/lib/opkg/info -name "*.control" \( \
--						\( -exec test -f /rom/{} \; -exec echo {} rom \; \) -o \
--						\( -exec test -f /overlay/upper/{} \; -exec echo {} overlay \; \) -o \
--						\( -exec echo {} unknown \; \) \
--						\) | sed -e 's,.*/,,;s/\.control /\t/')" || ret=1
-+					. /etc/profile.d/opkg.sh && opkg save
- 				elif [ -d "/lib/apk/packages" ]; then
- 					tar_print_member "$INSTALLED_PACKAGES" "$(find /lib/apk/packages -name "*.list" \( \
- 						\( -exec test -f /rom/{} \; -exec echo {} rom \; \) -o \
-@@ -311,6 +307,10 @@ create_backup_archive() {
- 					echo "Failed to detect installed packages metadata files." >&2
- 					ret=1
- 				fi
-+			else
-+				uci -q del opkg.auto
-+				uci -q del opkg.custom
-+				uci commit opkg
- 			fi
- 		fi
- 
 
 --- a/package/base-files/files/etc/profile
 +++ b/package/base-files/files/etc/profile
