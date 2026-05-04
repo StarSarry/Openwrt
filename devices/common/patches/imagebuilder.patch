@@ -116,11 +116,7 @@
  
  _call_manifest: FORCE
  	rm -rf $(TARGET_DIR)
-@@ -280,17 +307,17 @@ else
- 	)
- endif
- 	$(call prepare_rootfs,$(TARGET_DIR),$(USER_FILES),$(DISABLED_SERVICES))
- 
+@@ -258,12 +258,12 @@ endif
  build_image: FORCE
  	@echo
  	@echo Building images...
@@ -134,5 +130,4 @@
 +		nice $(NO_TRACE_MAKE) -C target/linux/$(BOARD)/image install TARGET_BUILD=1 IB=1 EXTRA_IMAGE_NAME="$(EXTRA_IMAGE_NAME)" \
  			$(if $(USER_PROFILE),PROFILE="$(USER_PROFILE)"); \
  	fi
- 
  
