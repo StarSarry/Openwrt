@@ -1,0 +1,13 @@
+--- a/feeds/kiddin9/my-default-settings/Makefile
++++ b/feeds/kiddin9/my-default-settings/Makefile
+@@ -43,6 +43,10 @@ define Package/$(PKG_NAME)/install
+  if [ -d ./diy/$(TARGETID)/base-files/. ]; then \
+  $(CP) ./diy/$(TARGETID)/base-files/* $(1)/; \
+  fi; \
++ # APK mode enforces file ownership, avoid overwriting other packages' files.
++ rm -f \
++  $(1)/etc/hotplug.d/ieee80211/10-wifi-detect \
++  $(1)/www/luci-static/resources/view/status/include/19_cpu.js
+  $(INSTALL_DIR) $(1)/usr/lib/lua/luci/i18n
+  po2lmo ./po/zh_Hans/default.po $(1)/usr/lib/lua/luci/i18n/default.zh-cn.lmo
+ 

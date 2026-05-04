@@ -15,6 +15,13 @@ sed -i "s?git.openwrt.org/\(project\|feed\)?github.com/openwrt?g" feeds.conf.def
 ./scripts/feeds install -a -p kiddin9 -f
 ./scripts/feeds install -a
 
+# Normalize invalid APK versions in third-party feed packages:
+# PKG_VERSION should not carry a trailing "-rN" release suffix.
+for makefile in feeds/kiddin9/*/Makefile package/feeds/kiddin9/*/Makefile; do
+	[ -f "$makefile" ] || continue
+	sed -E -i 's/^(PKG_VERSION:=.+)-r([0-9]+)$/\1/' "$makefile"
+done
+
 sed --follow-symlinks -i "s#%C\"#%C by Jun'\"#" package/base-files/files/etc/os-release
 sed -i -e '$a /etc/bench.log' \
         -e '/\/etc\/profile/d' \
