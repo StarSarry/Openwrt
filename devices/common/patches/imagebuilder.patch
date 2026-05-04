@@ -154,11 +154,11 @@
  else
  	$(eval BUILD_PACKAGES:=$(call FormatPackages,$(BUILD_PACKAGES)))
  	$(APK) add --arch $(ARCH_PACKAGES) --no-scripts $(BUILD_PACKAGES)
-@@ -280,16 +318,19 @@ else
+@@ -280,16 +315,16 @@ else
  	)
  endif
  	$(call prepare_rootfs,$(TARGET_DIR),$(USER_FILES),$(DISABLED_SERVICES))
-
+ 
  build_image: FORCE
  	@echo
  	@echo Building images...
