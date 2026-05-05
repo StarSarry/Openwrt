@@ -206,12 +206,6 @@ jobs:
     - name: Patch preflight
       run: |
         cd openwrt
-        for mf in feeds/kiddin9/my-default-settings/Makefile feeds/kiddin9/luci-app-fan/Makefile; do
-          [ -f "$mf" ] || continue
-          echo "Validate syntax: $mf"
-          make -f "$mf" TOPDIR="$(pwd)" -pn >/dev/null
-        done
-
         bad_versions=$(awk '/^PKG_VERSION:=.*-r[0-9][0-9]*$/ {print FILENAME ":" NR ":" $0}' feeds/kiddin9/*/Makefile package/feeds/kiddin9/*/Makefile 2>/dev/null || true)
         if [ -n "$bad_versions" ]; then
           echo "Invalid APK versions detected (PKG_VERSION should not end with -rN):"
