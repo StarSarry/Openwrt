@@ -244,7 +244,17 @@ jobs:
         df -hT
         cd openwrt
         echo -e "$(($(nproc)+1)) thread compile"
-        make -j$(($(nproc)+1)) || { log=$(mktemp);make V=s &>$log; } || { tail -50 $log; curl -k --data chat_id="${{ env.TELEGRAM_CHAT_ID }}" --data "text=❌ OpenWrt ${{ env.VERSION }} ${{matrix.target}} 编译失败 😂" "https://api.telegram.org/bot${{ env.TELEGRAM_TOKEN }}/sendMessage";df -hT;exit 1; }
+        make -j$(($(nproc)+1)) || {
+          log=$(mktemp)
+          make -j1 V=s >"$log" 2>&1 || true
+          echo "========== Build Failure Hints =========="
+          grep -E "ERROR:|error:|Cannot satisfy|trying to overwrite|is owned by|unsatisfied constraints|No such file|Hunk #[0-9]+ FAILED|make\\[[0-9]+\\]: \\*\\*\\*" "$log" | tail -n 120 || true
+          echo "========== Last 200 Log Lines =========="
+          tail -n 200 "$log" || true
+          curl -k --data chat_id="${{ env.TELEGRAM_CHAT_ID }}" --data "text=❌ OpenWrt ${{ env.VERSION }} ${{matrix.target}} 编译失败 😂" "https://api.telegram.org/bot${{ env.TELEGRAM_TOKEN }}/sendMessage"
+          df -hT
+          exit 1
+        }
         rm -rf staging_dir/toolchain-*/bin/*openwrt-linux-musl-lto-dump
         rm -rf staging_dir/toolchain-*/initial
         df -hT
