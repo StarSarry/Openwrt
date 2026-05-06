@@ -204,7 +204,7 @@ jobs:
         find "devices/${{matrix.target}}/patches" -maxdepth 1 -type f -name '*.revert.patch' -print0 | sort -z | xargs -I % -t -0 -n 1 sh -c "patch -d './' -R --no-backup-if-mismatch -p1 -F 1 --ignore-whitespace -i '%'"
         find "devices/${{matrix.target}}/patches" -maxdepth 1 -type f -name '*.patch' ! -name '*.revert.patch' ! -name '*.bin.patch' -print0 | sort -z | xargs -I % -t -0 -n 1 sh -c "patch -d './' --no-backup-if-mismatch -p1 -F 1 --ignore-whitespace -i '%'"
         # APK imagebuilder: avoid hard failure on duplicate package filenames across feeds.
-        sed -i 's/-exec cp -fpR -t $(PKG_BUILD_DIR)\/packages\/ {} +/-exec cp -fpnR -t $(PKG_BUILD_DIR)\/packages\/ {} +/' target/imagebuilder/Makefile
+        sed -i 's|-exec cp -fpR -t \$\(PKG_BUILD_DIR\)/packages/ {} +|-exec cp -fpnR -t \$\(PKG_BUILD_DIR\)/packages/ {} +|' target/imagebuilder/Makefile
 
     - name: Patch preflight
       run: |
