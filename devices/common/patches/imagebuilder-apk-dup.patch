@@ -1,5 +1,0 @@
---- a/target/imagebuilder/Makefile
-+++ b/target/imagebuilder/Makefile
-@@ -56 +56 @@
--		-exec cp -fpR -t $(PKG_BUILD_DIR)/packages/ {} +
-+		-exec cp -fpnR -t $(PKG_BUILD_DIR)/packages/ {} +
