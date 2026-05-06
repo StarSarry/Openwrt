@@ -59,16 +59,6 @@
  		/^Target-Profile-SupportedDevices:\s*(.+)\s*$/ and $profile->{supported_devices} = [ split(/\s+/, $1) ];
  		/^Target-Profile-Priority:\s*(\d+)\s*$/ and do {
  
---- a/target/imagebuilder/Makefile
-+++ b/target/imagebuilder/Makefile
-@@ -39,5 +39,6 @@ $(BIN_DIR)/$(IB_NAME).tar.zst: clean
- 		./files/Makefile \
- 		$(TMP_DIR)/.targetinfo \
- 		$(TMP_DIR)/.packageinfo \
--		$(PKG_BUILD_DIR)/
-+		$(TOPDIR)/files \
-+		$(PKG_BUILD_DIR)/ || true
- 	$(INSTALL_DIR) $(PKG_BUILD_DIR)/packages
 --- a/target/imagebuilder/files/Makefile
 +++ b/target/imagebuilder/files/Makefile
 @@ -144,6 +144,30 @@ BUILD_PACKAGES:=$(sort $(DEFAULT_PACKAGES) $($(USER_PROFILE)_PACKAGES) kernel)
