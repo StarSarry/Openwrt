@@ -61,21 +61,14 @@
  
 --- a/target/imagebuilder/Makefile
 +++ b/target/imagebuilder/Makefile
-@@ -39,8 +39,9 @@ $(BIN_DIR)/$(IB_NAME).tar.zst: clean
+@@ -39,5 +39,6 @@ $(BIN_DIR)/$(IB_NAME).tar.zst: clean
  		./files/Makefile \
  		$(TMP_DIR)/.targetinfo \
  		$(TMP_DIR)/.packageinfo \
 -		$(PKG_BUILD_DIR)/
 +		$(TOPDIR)/files \
 +		$(PKG_BUILD_DIR)/ || true
- 
  	$(INSTALL_DIR) $(PKG_BUILD_DIR)/packages
-@@ -55,7 +56,7 @@ $(BIN_DIR)/$(IB_NAME).tar.zst: clean
- 	find $(PACKAGE_SUBDIRS) -type f -name '*.apk' \
--		-exec cp -fpR -t $(PKG_BUILD_DIR)/packages/ {} +
-+		-exec cp -fpnR -t $(PKG_BUILD_DIR)/packages/ {} +
- 
- 
 --- a/target/imagebuilder/files/Makefile
 +++ b/target/imagebuilder/files/Makefile
 @@ -144,6 +144,30 @@ BUILD_PACKAGES:=$(sort $(DEFAULT_PACKAGES) $($(USER_PROFILE)_PACKAGES) kernel)
