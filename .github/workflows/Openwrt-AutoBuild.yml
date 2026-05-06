@@ -206,7 +206,7 @@ jobs:
         # APK imagebuilder: copy per source directory (batched) to avoid
         # same-batch duplicate basename conflicts while preserving feed order override.
         sed -i -E 's#-exec cp -fp(n)?R -t \$\(PKG_BUILD_DIR\)/packages/ \{\} (\+|\\;)#for d in $(PACKAGE_SUBDIRS); do [ -d "$$d" ] || continue; find "$$d" -type f -name '\''*.apk'\'' -exec cp -fpR -t $(PKG_BUILD_DIR)/packages/ {} +; done#' target/imagebuilder/Makefile
-        rg -n --fixed-strings -- "for d in \$(PACKAGE_SUBDIRS); do [ -d \"\$\$d\" ] || continue; find \"\$\$d\" -type f -name '*.apk' -exec cp -fpR -t \$(PKG_BUILD_DIR)/packages/ {} +; done" target/imagebuilder/Makefile
+        grep -nF -- "for d in \$(PACKAGE_SUBDIRS); do [ -d \"\$\$d\" ] || continue; find \"\$\$d\" -type f -name '*.apk' -exec cp -fpR -t \$(PKG_BUILD_DIR)/packages/ {} +; done" target/imagebuilder/Makefile
 
     - name: Patch preflight
       run: |
