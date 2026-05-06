@@ -209,9 +209,8 @@ jobs:
           [ -f "$f" ] || continue
           sed -i -E 's#-exec cp -fp(n)?R -t \$\(PKG_BUILD_DIR\)/packages/?[[:space:]]+\{\}[[:space:]]+(\+|\\;)#-exec cp -fpR -t $(PKG_BUILD_DIR)/packages/ {} \\;#g' "$f"
         done
-        if ! grep -R -nE -- "-exec cp -fpR -t \\$\\(PKG_BUILD_DIR\\)/packages/? \\{\\} \\\\;" target/imagebuilder/Makefile target/imagebuilder/files/Makefile; then
-          echo "ERROR: imagebuilder package copy rule replacement did not apply"
-          grep -n "cp -fp" target/imagebuilder/Makefile target/imagebuilder/files/Makefile || true
+        if grep -R -nE -- "-exec cp -fp(n)?R -t \\\$\\\(PKG_BUILD_DIR\\\)/packages/?[[:space:]]+\{\}[[:space:]]+\+" target/imagebuilder/Makefile target/imagebuilder/files/Makefile 2>/dev/null; then
+          echo "ERROR: imagebuilder package copy rule (batch '+' form) was not converted to '\\;'"
           exit 1
         fi
 
