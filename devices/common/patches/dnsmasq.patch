@@ -43,7 +43,7 @@
  	procd_add_jail_mount $CONFIGFILE $DHCPBOGUSHOSTNAMEFILE $DHCPSCRIPT $DHCPSCRIPT_DEPENDS
  	procd_add_jail_mount $EXTRA_MOUNT $RFC6761FILE $TRUSTANCHORSFILE
  	procd_add_jail_mount $dnsmasqconffile $dnsmasqconfdir $resolvdir $user_dhcpscript
-@@ -1217,6 +1216,20 @@ dnsmasq_start()
+@@ -1217,6 +1216,21 @@ dnsmasq_start()
  	[ -e "$hostsfile" ] && procd_add_jail_mount $hostsfile
  
  	procd_close_instance
@@ -54,6 +54,7 @@
 +		nft add table inet dnsmasq
 +		nft add chain inet dnsmasq prerouting "{ type nat hook prerouting priority -105; policy accept; }"
 +		nft add rule inet dnsmasq prerouting "meta nfproto { ipv4, ipv6 } udp dport 53 counter redirect to :$dns_port comment \"DNSMASQ HIJACK\""
++		nft add rule inet dnsmasq prerouting "meta nfproto { ipv4, ipv6 } tcp dport 53 counter redirect to :$dns_port comment \"DNSMASQ HIJACK\""
 +	else
 +		iptables -t nat -A PREROUTING -m comment --comment "DNSMASQ" -p udp --dport 53 -j REDIRECT --to-ports $dns_port
 +		iptables -t nat -A PREROUTING -m comment --comment "DNSMASQ" -p tcp --dport 53 -j REDIRECT --to-ports $dns_port
