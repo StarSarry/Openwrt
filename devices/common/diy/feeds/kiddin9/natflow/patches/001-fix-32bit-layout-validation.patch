@@ -1,0 +1,14 @@
+--- a/natflow_common.c
++++ b/natflow_common.c
+@@ -149,9 +149,10 @@ int natflow_ct_ext_layout_validate(void)
+ 	BUILD_BUG_ON(offsetof(struct natflow_t, dpi_reserved) +
+ 	             sizeof(((struct natflow_t *)0)->dpi_reserved) -
+ 	             offsetof(struct natflow_t, dpi_byte_count) != 8);
+ 	BUILD_BUG_ON(ALIGN(offsetof(struct natflow_t, dpi_reserved) +
+ 	                   sizeof(((struct natflow_t *)0)->dpi_reserved),
+-	                   __ALIGN_64BITS) != sizeof(struct natflow_t));
++	                   __ALIGN_64BITS) !=
++	             ALIGN(sizeof(struct natflow_t), __ALIGN_64BITS));
+ 
+ 	natflow_ct_ext_layout_get(&layout);
+ 

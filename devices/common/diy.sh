@@ -79,6 +79,8 @@ sed -i \
 	-e "s/+nginx\( \|$\)/+nginx-ssl\1/" \
 	-e 's/+python\( \|$\)/+python3/' \
 	-e 's?../../lang?$(TOPDIR)/feeds/packages/lang?' \
+	-e 's?$(CP) ../../NOTICE?$(CP) $(TOPDIR)/feeds/luci/NOTICE?' \
+	-e 's?$(CP) ../../LICENSE?$(CP) $(TOPDIR)/feeds/luci/LICENSE?' \
 	package/feeds/kiddin9/*/Makefile
 
 sed -i -e "s/set \${s}.country='\${country || ''}'/set \${s}.country='\${country || \"CN\"}'/g" -e "s/set \${s}.disabled=.*/set \${s}.disabled='0'/" package/network/config/wifi-scripts/files/lib/wifi/mac80211.uc
