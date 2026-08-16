@@ -11,6 +11,10 @@ rm -rf package/boot target/linux/rockchip
 
 git_clone_path master https://github.com/coolsnowwolf/lede target/linux/rockchip package/boot
 
+# lede ships 014 + 016 but omits 015; 016 needs the switch/case from 015.
+wget -N "https://raw.githubusercontent.com/openwrt/openwrt/openwrt-25.12/target/linux/rockchip/patches-6.12/035-02-v6.13-gpio-rockchip-change-the-GPIO-version-judgment-logic.patch" \
+	-O target/linux/rockchip/patches-6.12/015-v6.13-gpio-rockchip-change-the-GPIO-version-judgment-logic.patch
+
 wget -N https://github.com/istoreos/istoreos/raw/refs/heads/istoreos-23.05/target/linux/rockchip/patches-5.15/305-r2s-pwm-fan.patch -P target/linux/rockchip/patches-6.12/
 
 wget -N https://github.com/coolsnowwolf/lede/raw/refs/heads/master/target/linux/generic/backport-6.12/203-v6.15-drivers-base-component-add-function-to-query-the-bound.patch -P target/linux/generic/backport-6.12/
