@@ -27,14 +27,14 @@
 -			if (([ "${devicecompat#.*}" != "${imagecompat#.*}" ] || [ "$dev" = "$oem" ])) && [ "$SAVE_CONFIG" = "1" ]; then
 +			if { [ "${devicecompat#.*}" != "${imagecompat#.*}" ] || [ -n "$oem" -a "$dev" = "$oem" ]; } && [ "$SAVE_CONFIG" = "1" ]; then
  				# Step 4.
- 				# here we have to gaurd against the default case, oem may exsist and default will pass
+ 				# here we have to gaurd against the default case, oem may exsist and default will pass 
  				# the original check [ "${devicecompat#.*}" != "${imagecompat#.*}" ] so we must
 
 --- a/package/base-files/files/lib/functions.sh
 +++ b/package/base-files/files/lib/functions.sh
 @@ -390,6 +390,11 @@ default_postinst() {
  		fi
-
+ 
  		rm -f /tmp/luci-indexcache.*
 +
 +		if grep -qs '^/usr/share/rpcd/acl.d/' "$filelist"; then
@@ -42,7 +42,7 @@
 +		fi
 +
  	fi
-
+ 
  	if [ -f "$root/usr/lib/opkg/info/${pkgname}.postinst-pkg" ]; then
 @@ -404,11 +409,16 @@ default_postinst() {
  		else
@@ -61,7 +61,7 @@
 +	fi
  	return $ret
  }
- 
+
 
 --- a/package/base-files/files/etc/shinit
 +++ b/package/base-files/files/etc/shinit
