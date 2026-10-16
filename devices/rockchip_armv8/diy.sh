@@ -5,6 +5,8 @@ SHELL_FOLDER=$(dirname $(readlink -f "$0"))
 
 #bash $SHELL_FOLDER/../common/kernel_6.6.sh
 
+sed -i 's/Os/O2/g' include/target.mk
+
 rm -rf package/boot target/linux/rockchip
 
 git_clone_path master https://github.com/coolsnowwolf/lede target/linux/rockchip package/boot
@@ -25,3 +27,6 @@ sed -i -e 's,wpad-openssl,wpad-basic-mbedtls,g' target/linux/rockchip/image/armv
 sed -i -e '/KERNEL_TESTING_PATCHVER/d' -e 's/DEFAULT_PACKAGES +=/DEFAULT_PACKAGES += fdisk lsblk kmod-drm-rockchip luci-app-diskman/' -e 's/autocore-arm/autocore/' target/linux/rockchip/Makefile
 
 sed -i 's/Ariaboard/光影猫/' target/linux/rockchip/image/armv8.mk
+
+sed -i 's/6.18/6.12/' target/linux/rockchip/Makefile
+
