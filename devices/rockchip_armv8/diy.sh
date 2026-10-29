@@ -9,7 +9,7 @@ sed -i 's/Os/O2/g' include/target.mk
 
 rm -rf package/boot target/linux/rockchip
 
-git_clone_path 11492988df2a358e4424d3869e3cdfc57bd63d01 https://github.com/coolsnowwolf/lede target/linux/rockchip package/boot
+git_clone_path master https://github.com/coolsnowwolf/lede target/linux/rockchip package/boot
 
 wget -N https://github.com/istoreos/istoreos/raw/refs/heads/istoreos-23.05/target/linux/rockchip/patches-5.15/305-r2s-pwm-fan.patch -P target/linux/rockchip/patches-6.12/
 
