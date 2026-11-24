@@ -68,9 +68,9 @@ jobs:
       continue-on-error: true
       if: contains(github.event.action, 'pkg')
       run: |
-        status=$(curl -H "Authorization: token ${{ secrets.TOKEN_KIDDIN9 }}" -s "https://api.github.com/repos/kiddin9/op-packages/actions/runs" | jq -r '.workflow_runs[0].status')
+        status=$(curl -H "Authorization: token ${{ secrets.TOKEN_KIDDIN9 }}" -s "https://api.github.com/repos/StarSarry/op-packages/actions/runs" | jq -r '.workflow_runs[0].status')
         if [[ "$status" == "completed" ]]; then
-          curl -X POST https://api.github.com/repos/kiddin9/op-packages/dispatches \
+          curl -X POST https://api.github.com/repos/StarSarry/op-packages/dispatches \
             -H "Accept: application/vnd.github.everest-preview+json" \
             -H "Authorization: token ${{ secrets.TOKEN_KIDDIN9 }}" \
           --data '{"event_type": "update"}'
@@ -254,7 +254,7 @@ jobs:
       if: env.SSH_PRIVATE_KEY && ! contains(github.event.action, 'noser')
       with:
         SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
-        ARGS: "-avr --timeout=600 --include='kwrt-imagebuilder-*' --include='kwrt-*-initramfs*' --exclude='kwrt-*'"
+        ARGS: "-avr --timeout=600"
         SSH_CMD_ARGS: "-o ServerAliveInterval=30 -o ServerAliveCountMax=10 -o StrictHostKeyChecking=no"
         SOURCE: openwrt/bin/targets
         REMOTE_HOST: ${{ secrets.SERVER_HOST }}
