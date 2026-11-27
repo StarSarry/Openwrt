@@ -2,7 +2,7 @@
 #=================================================
 shopt -s extglob
 
-sed -i '$a src-git kiddin9 https://github.com/kiddin9/op-packages.git;main' feeds.conf.default
+sed -i '$a src-git kiddin9 https://github.com/StarSarry/op-packages.git;main' feeds.conf.default
 sed -i "/telephony/d" feeds.conf.default
 
 sed -i "s?targets/%S/packages?targets/%S/\$(LINUX_VERSION)?" include/feeds.mk
@@ -14,13 +14,6 @@ sed -i "s?git.openwrt.org/\(project\|feed\)?github.com/openwrt?g" feeds.conf.def
 ./scripts/feeds update -a
 ./scripts/feeds install -a -p kiddin9 -f
 ./scripts/feeds install -a
-
-# Normalize invalid APK versions in third-party feed packages:
-# PKG_VERSION should not carry a trailing "-rN" release suffix.
-for makefile in feeds/kiddin9/*/Makefile package/feeds/kiddin9/*/Makefile; do
-	[ -f "$makefile" ] || continue
-	sed -E -i 's/^(PKG_VERSION:=.+)-r([0-9]+)$/\1/' "$makefile"
-done
 
 sed --follow-symlinks -i "s#%C\"#%C by Jun'\"#" package/base-files/files/etc/os-release
 sed -i -e '$a /etc/bench.log' \
@@ -46,9 +39,9 @@ git_clone_path openwrt-25.12 https://github.com/immortalwrt/immortalwrt package/
 
 echo "$(date +"%s")" >version.date
 sed -i '/$(curdir)\/compile:/c\$(curdir)/compile: package/opkg/host/compile' package/Makefile
-sed -i "s/DEFAULT_PACKAGES:=/DEFAULT_PACKAGES:=luci-app-advancedplus luci-app-firewall luci-app-package-manager luci-app-upnp luci-app-syscontrol \
-luci-app-wizard luci-base luci-compat luci-lib-fs \
-luci-nginx wget-ssl curl autocore zram-swap kmod-lib-zstd kmod-tcp-bbr bash openssh-sftp-server block-mount resolveip ds-lite swconfig luci-app-fan luci-app-wifihistory /" include/target.mk
+sed -i "s/DEFAULT_PACKAGES:=/DEFAULT_PACKAGES:=luci-app-advancedplus luci-app-sysctl luci-app-firewall luci-app-package-manager luci-app-upnp luci-app-syscontrol \
+luci-app-wizard luci-base luci-compat luci-lib-fs luci-app-crontab-wizard \
+wget-ssl curl autocore zram-swap kmod-lib-zstd kmod-tcp-bbr bash openssh-sftp-server block-mount resolveip ds-lite swconfig luci-app-fan luci-app-footstrap-files /" include/target.mk
 
 sed -i "s/^.*vermagic$/\techo '1' > \$(LINUX_DIR)\/.vermagic/" include/kernel-defaults.mk
 
@@ -64,11 +57,8 @@ wget -N https://raw.githubusercontent.com/openwrt/packages/master/lang/golang/go
 
 #sed -i "/call Build\/check-size,\$\$(KERNEL_SIZE)/d" include/image.mk
 
-sed -i "/+= targz/d" include/image.mk
-
 git_clone_path master https://github.com/coolsnowwolf/lede mv target/linux/generic/hack-6.12
 
-rm -rf target/linux/generic/hack-6.12/767-net-phy-realtek-add-led*
 wget -N https://raw.githubusercontent.com/coolsnowwolf/lede/master/target/linux/generic/pending-6.12/613-netfilter_optional_tcp_window_check.patch -P target/linux/generic/pending-6.12/
 
 # find target/linux/x86 -name "config*" -exec bash -c 'cat kernel.conf >> "{}"' \;
@@ -79,17 +69,15 @@ sed -i "s/tty\(0\|1\)::askfirst/tty\1::respawn/g" target/linux/*/base-files/etc/
 date_tag=$(date +%Y%m%d)
 sed -i -e "/\(# \)\?REVISION:=/c\REVISION:=${date_tag}" -e '/VERSION_CODE:=/c\VERSION_CODE:=$(REVISION)' include/version.mk
 
-sed -i 's/option timeout 30/option timeout 60/g' package/system/rpcd/files/rpcd.config
+sed -i 's/option timeout 30/option timeout 120/g' package/system/rpcd/files/rpcd.config
 
 sed -i \
 	-e "s/+\(luci\|luci-ssl\|uhttpd\)\( \|$\)/\2/" \
 	-e "s/+nginx\( \|$\)/+nginx-ssl\1/" \
 	-e 's/+python\( \|$\)/+python3/' \
 	-e 's?../../lang?$(TOPDIR)/feeds/packages/lang?' \
-	-e 's?$(CP) ../../NOTICE?$(CP) $(TOPDIR)/feeds/luci/NOTICE?' \
-	-e 's?$(CP) ../../LICENSE?$(CP) $(TOPDIR)/feeds/luci/LICENSE?' \
 	package/feeds/kiddin9/*/Makefile
 
 sed -i -e "s/set \${s}.country='\${country || ''}'/set \${s}.country='\${country || \"CN\"}'/g" -e "s/set \${s}.disabled=.*/set \${s}.disabled='0'/" package/network/config/wifi-scripts/files/lib/wifi/mac80211.uc
 
-rm -rf package/feeds/packages/jool
+rm -rf package/feeds/packages/jool package/feeds/routing/batman-adv
